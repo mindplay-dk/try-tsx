@@ -1,15 +1,17 @@
 import { Server } from "hyper-express";
 import * as process from "process";
 
-const webserver = new Server();
+const server = new Server();
 
-webserver.get("/", (request, response) => {
+server.get("/", (request, response) => {
   response.send("Hello World");
 });
 
-async function start({ port }: { port: number }) {
+start(server, { port: 8080 });
+
+async function start(server: Server, { port }: { port: number }) {
   try {
-    const socket = await webserver.listen(port);
+    const socket = await server.listen(port);
   } catch (error) {
     console.log(`Failed to start webserver on port ${port}`, { error });
 
@@ -18,5 +20,3 @@ async function start({ port }: { port: number }) {
 
   console.log(`Webserver started on http://localhost:${port}/`);
 }
-
-start({ port: 8080 });
